@@ -20,7 +20,7 @@ public class RegionServiceImpl implements RegionService {
 
 
     @Override
-    public RegionCreateResponseDTO saveRegions(RegionCreateRequestDTO regionCreateRequestDTO) {
+    public RegionCreateResponseDTO saveRegion(RegionCreateRequestDTO regionCreateRequestDTO) {
         if(regionCreateRequestDTO.getName() == null || regionCreateRequestDTO.getCode() == null){
             throw new IllegalArgumentException("Region name and code must not be null");
         }

@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class   GetAllBMsResponseDTO {
+public class GetSalesOfficerResponseDTO {
     private Long id;
-    private String username;
+    private String userName;
     private String branchName;
     private String regionName;
 }

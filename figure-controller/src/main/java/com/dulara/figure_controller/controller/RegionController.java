@@ -4,7 +4,6 @@ import com.dulara.figure_controller.dto.region.GetRegionsDTO;
 import com.dulara.figure_controller.dto.region.RegionCreateRequestDTO;
 import com.dulara.figure_controller.dto.region.RegionCreateResponseDTO;
 import com.dulara.figure_controller.service.RegionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +18,9 @@ public class RegionController {
         this.regionService = regionService;
     }
 
-    @PostMapping("/saveRegions")
-    public ResponseEntity<RegionCreateResponseDTO> saveRegions(@RequestBody RegionCreateRequestDTO regionCreateRequestDTO) {
-        RegionCreateResponseDTO response = regionService.saveRegions(regionCreateRequestDTO);
+    @PostMapping("/saveRegion")
+    public ResponseEntity<RegionCreateResponseDTO> saveRegion(@RequestBody RegionCreateRequestDTO regionCreateRequestDTO) {
+        RegionCreateResponseDTO response = regionService.saveRegion(regionCreateRequestDTO);
         return ResponseEntity.ok(response);
     }
 

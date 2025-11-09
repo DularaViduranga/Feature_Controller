@@ -162,10 +162,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<GetAllRMsResponseDTO> getAllRMs() {
+    public List<GetRMsResponseDTO> getAllRMs() {
         List<UserEntity> rmEntities = userRepository.findByRole(Role.RM);
         return rmEntities.stream()
-                .map(rm -> new GetAllRMsResponseDTO(
+                .map(rm -> new GetRMsResponseDTO(
                         rm.getId(),
                         rm.getUsername(),
                         rm.getRegion() != null ? rm.getRegion().getName() : null
@@ -174,10 +174,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<GetAllBMsResponseDTO> getAllBMs() {
+    public List<GetBMsResponseDTO> getAllBMs() {
         List<UserEntity> rmEntities = userRepository.findByRole(Role.BM);
         return rmEntities.stream()
-                .map(rm -> new GetAllBMsResponseDTO(
+                .map(rm -> new GetBMsResponseDTO(
                         rm.getId(),
                         rm.getUsername(),
                         rm.getBranch() != null ? rm.getBranch().getName() : null,
@@ -187,10 +187,49 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<GetAllSalesOfficerResponseDTO> getAllSalesOfficers() {
+    public List<GetSalesOfficerResponseDTO> getAllSalesOfficers() {
         List<UserEntity> rmEntities = userRepository.findByRole(Role.SALES_OFFICER);
         return rmEntities.stream()
-                .map(rm -> new GetAllSalesOfficerResponseDTO(
+                .map(rm -> new GetSalesOfficerResponseDTO(
+                        rm.getId(),
+                        rm.getUsername(),
+                        rm.getBranch() != null ? rm.getBranch().getName() : null,
+                        rm.getRegion() != null ? rm.getRegion().getName() : null
+                ))
+                .toList();
+    }
+
+    @Override
+    public List<GetBMsResponseDTO> getBMbyRegion(Long regionId) {
+        List<UserEntity> bmEntities = userRepository.findByRoleAndRegion_Id(Role.BM, regionId);
+        return bmEntities.stream()
+                .map(rm -> new GetBMsResponseDTO(
+                        rm.getId(),
+                        rm.getUsername(),
+                        rm.getBranch() != null ? rm.getBranch().getName() : null,
+                        rm.getRegion() != null ? rm.getRegion().getName() : null
+                ))
+                .toList();
+    }
+
+    @Override
+    public List<GetSalesOfficerResponseDTO> getSalesOfficerbyRegion(Long regionId) {
+        List<UserEntity> salesOfficerEntities = userRepository.findByRoleAndRegion_Id(Role.SALES_OFFICER, regionId);
+        return salesOfficerEntities.stream()
+                .map(rm -> new GetSalesOfficerResponseDTO(
+                        rm.getId(),
+                        rm.getUsername(),
+                        rm.getBranch() != null ? rm.getBranch().getName() : null,
+                        rm.getRegion() != null ? rm.getRegion().getName() : null
+                ))
+                .toList();
+    }
+
+    @Override
+    public List<GetSalesOfficerResponseDTO> getSalesOfficerbyBranch(Long branchId) {
+        List<UserEntity> salesOfficerEntities = userRepository.findByRoleAndBranch_Id(Role.SALES_OFFICER, branchId);
+        return salesOfficerEntities.stream()
+                .map(rm -> new GetSalesOfficerResponseDTO(
                         rm.getId(),
                         rm.getUsername(),
                         rm.getBranch() != null ? rm.getBranch().getName() : null,
@@ -263,6 +302,8 @@ public class UserServiceImpl implements UserService {
 
         return new PasswordChangeResponseDTO("Password updated successfully", null);
     }
+
+
 
 
 }

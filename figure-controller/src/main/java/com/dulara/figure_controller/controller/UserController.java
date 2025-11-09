@@ -41,20 +41,39 @@ public class UserController {
     }
 
     @GetMapping("/getAllRMs")
-    public ResponseEntity<List<GetAllRMsResponseDTO>> getAllRMs() {
-        List<GetAllRMsResponseDTO> response = userService.getAllRMs();
+    public ResponseEntity<List<GetRMsResponseDTO>> getAllRMs() {
+        List<GetRMsResponseDTO> response = userService.getAllRMs();
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/getAllBMs")
-    public ResponseEntity<List<GetAllBMsResponseDTO>> getAllBMs() {
-        List<GetAllBMsResponseDTO> response = userService.getAllBMs();
+    public ResponseEntity<List<GetBMsResponseDTO>> getAllBMs() {
+        List<GetBMsResponseDTO> response = userService.getAllBMs();
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/getAllSalesOfficers")
-    public ResponseEntity<List<GetAllSalesOfficerResponseDTO>> getAllSalesOfficers() {
-        List<GetAllSalesOfficerResponseDTO> response = userService.getAllSalesOfficers();
+    public ResponseEntity<List<GetSalesOfficerResponseDTO>> getAllSalesOfficers() {
+        List<GetSalesOfficerResponseDTO> response = userService.getAllSalesOfficers();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/getBMbyRegion/{regionId}")
+    public ResponseEntity<List<GetBMsResponseDTO>> getBMbyRegion(@PathVariable Long regionId) {
+        List<GetBMsResponseDTO> response = userService.getBMbyRegion(regionId);
+        return ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping("/getSalesOfficerbyRegion/{regionId}")
+    public ResponseEntity<List<GetSalesOfficerResponseDTO>> getSalesOfficerbyRegion(@PathVariable Long regionId) {
+        List<GetSalesOfficerResponseDTO> response = userService.getSalesOfficerbyRegion(regionId);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/getSalesOfficerbyBranch/{branchId}")
+    public ResponseEntity<List<GetSalesOfficerResponseDTO>> getSalesOfficerbyBranch(@PathVariable Long branchId) {
+        List<GetSalesOfficerResponseDTO> response = userService.getSalesOfficerbyBranch(branchId);
         return ResponseEntity.ok(response);
     }
 

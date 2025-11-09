@@ -17,13 +17,19 @@ public interface UserService {
 
     void deleteBM(Long id);
 
-    List<GetAllRMsResponseDTO> getAllRMs();
+    List<GetRMsResponseDTO> getAllRMs();
 
-    List<GetAllBMsResponseDTO> getAllBMs();
+    List<GetBMsResponseDTO> getAllBMs();
 
-    List<GetAllSalesOfficerResponseDTO> getAllSalesOfficers();
+    List<GetSalesOfficerResponseDTO> getAllSalesOfficers();
 
     void deleteSalesOfficer(Long id);
 
     PasswordChangeResponseDTO updatePassword(Long id, PasswordChangeRequestDTO passwordChangeRequestDTO);
+
+    List<GetBMsResponseDTO> getBMbyRegion(Long regionId);
+
+    List<GetSalesOfficerResponseDTO> getSalesOfficerbyRegion(Long regionId);
+
+    List<GetSalesOfficerResponseDTO> getSalesOfficerbyBranch(Long branchId);
 }

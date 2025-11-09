@@ -7,7 +7,7 @@ import com.dulara.figure_controller.dto.region.RegionCreateResponseDTO;
 import java.util.List;
 
 public interface RegionService {
-    RegionCreateResponseDTO saveRegions(RegionCreateRequestDTO regionCreateRequestDTO);
+    RegionCreateResponseDTO saveRegion(RegionCreateRequestDTO regionCreateRequestDTO);
 
     List<GetRegionsDTO> getAllRegions();
 
