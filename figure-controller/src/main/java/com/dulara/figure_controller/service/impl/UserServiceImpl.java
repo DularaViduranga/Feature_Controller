@@ -5,6 +5,7 @@ import com.dulara.figure_controller.entity.BranchEntity;
 import com.dulara.figure_controller.entity.RegionEntity;
 import com.dulara.figure_controller.entity.Role;
 import com.dulara.figure_controller.entity.UserEntity;
+import com.dulara.figure_controller.exception.InvalidPasswordException;
 import com.dulara.figure_controller.exception.UserAlreadyExistsException;
 import com.dulara.figure_controller.repository.BranchRepository;
 import com.dulara.figure_controller.repository.RegionRepository;
@@ -12,7 +13,6 @@ import com.dulara.figure_controller.repository.UserRepository;
 import com.dulara.figure_controller.security.JwtUtil;
 import com.dulara.figure_controller.security.MD5PasswordEncoder;
 import com.dulara.figure_controller.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -135,7 +134,7 @@ public class UserServiceImpl implements UserService {
 
             return new UserRegisterResponseDTO("BM registered successfully", null);
         } else {
-            return new UserRegisterResponseDTO(null, "Branch already has a Branch Manager assigned");
+            throw new RuntimeException("Branch already has a Branch Manager assigned");
         }
     }
 
@@ -157,11 +156,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setBranch(branch);
         userEntity.setRegion(region);
 
-
-        UserEntity savedUser = userRepository.save(userEntity);
-
-        branch.setBranchManager(savedUser);
-        branchRepository.save(branch);
+        userRepository.save(userEntity);
 
         return new UserRegisterResponseDTO("Sales Officer registered successfully", null);
     }
@@ -248,31 +243,25 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public PasswordChangeResponseDTO updatePassword(Long id, PasswordChangeRequestDTO passwordChangeRequestDTO) {
-        try {
-            UserEntity user = userRepository.findById(id)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-            String hashedOldPassword = md5PasswordEncoder.encode(passwordChangeRequestDTO.getOldPassword());
+        String hashedOldPassword = md5PasswordEncoder.encode(passwordChangeRequestDTO.getOldPassword());
 
-            if (!user.getPassword().equals(hashedOldPassword)) {
-                return new PasswordChangeResponseDTO(null, "Old password is incorrect");
-            }
-
-            if (!passwordChangeRequestDTO.getNewPassword().equals(passwordChangeRequestDTO.getConfirmNewPassword())) {
-                return new PasswordChangeResponseDTO(null, "New password and Confirm new password do not match");
-            }
-
-            user.setPassword(md5PasswordEncoder.encode(passwordChangeRequestDTO.getNewPassword()));
-            userRepository.save(user);
-
-            return new PasswordChangeResponseDTO("Password updated successfully", null);
-        } catch (RuntimeException e) {
-            log.error("Error in updatePassword service: ", e);
-            throw e; // Re-throw to be caught by controller
+        if (!user.getPassword().equals(hashedOldPassword)) {
+            throw new InvalidPasswordException("Old password does not match hashed password");
         }
+
+        if (!passwordChangeRequestDTO.getNewPassword().equals(passwordChangeRequestDTO.getConfirmNewPassword())) {
+            throw new InvalidPasswordException("New password and Confirm new password do not match");
+        }
+
+        user.setPassword(md5PasswordEncoder.encode(passwordChangeRequestDTO.getNewPassword()));
+        userRepository.save(user);
+
+        return new PasswordChangeResponseDTO("Password updated successfully", null);
     }
 
 

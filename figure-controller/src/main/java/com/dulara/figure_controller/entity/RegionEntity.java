@@ -35,4 +35,11 @@ public class RegionEntity {
     @OneToMany(mappedBy = "region", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonManagedReference // the "parent" side of Region → Branch
     private List<BranchEntity> branches;
+
+    // Constructor without ID (for new entities)
+    public RegionEntity(String name, String code) {
+        this.name = name;
+        this.code = code;
+    }
+
 }

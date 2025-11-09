@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface RegionRepository extends JpaRepository<RegionEntity, Long> {
 
     Optional<RegionEntity> findByRegionalManager_Id(Long id);
+    boolean existsByName(String upperCase);
 }
