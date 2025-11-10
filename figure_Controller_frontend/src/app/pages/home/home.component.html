@@ -1,0 +1,41 @@
+<div class="flex flex-col h-screen bg-gray-50">
+  <!-- Top Bar (Always visible) -->
+  <app-top-bar-component></app-top-bar-component>
+
+  <!-- Navigation Bar -->
+  <app-nav-bar-component (toggleSidebar)="toggleSidebar()"></app-nav-bar-component>
+
+  <!-- Mobile Sidebar -->
+  <div *ngIf="sidebarOpen" class="lg:hidden fixed inset-0 z-50 bg-black bg-opacity-50" (click)="toggleSidebar()">
+    <div class="absolute left-0 top-0 h-full w-64 bg-white shadow-lg" (click)="$event.stopPropagation()" [@slideInOut]="sidebarOpen ? 'in' : 'out'">
+      <div class="p-4 bg-blue-600 text-white font-bold text-lg">Menu</div>
+      <nav class="flex flex-col p-4 gap-2">
+        <button class="text-left px-4 py-3 rounded-lg bg-blue-50 text-blue-600 font-semibold hover:bg-blue-100 transition">
+          My GWP
+        </button>
+        <button class="text-left px-4 py-3 rounded-lg bg-blue-50 text-blue-600 font-semibold hover:bg-blue-100 transition">
+          My Collection
+        </button>
+        <button class="text-left px-4 py-3 rounded-lg bg-blue-50 text-blue-600 font-semibold hover:bg-blue-100 transition">
+          My Renewal
+        </button>
+        <button class="text-left px-4 py-3 rounded-lg bg-blue-50 text-blue-600 font-semibold hover:bg-blue-100 transition">
+          My Cancellation
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="flex-1 flex flex-col lg:flex-row p-4 gap-4 overflow-auto">
+    <!-- Left Section (Empty for future content - Desktop only) -->
+    <div class="hidden lg:block flex-1 bg-white rounded-lg shadow-md p-6">
+      <!-- Content will be added later -->
+    </div>
+
+    <!-- Right Section with Bar Chart (Desktop) / Bottom Section (Mobile) -->
+    <div class="w-full lg:w-96">
+      <app-bar-chart-box-component></app-bar-chart-box-component>
+    </div>
+  </div>
+</div>
